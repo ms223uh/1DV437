@@ -7,15 +7,26 @@ namespace Chess
     /// <summary>
     /// This is the main type for your game.
     /// </summary>
-    public class Game1 : Game
+    public class ChessGame: Game
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        Texture2D whiteRec;
+        Texture2D blackRec;
+        Texture2D playerIcon;
+        Camera camera;
 
-        public Game1()
+        public ChessGame()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            graphics.IsFullScreen = false;
+            graphics.PreferredBackBufferHeight = 600;
+            graphics.PreferredBackBufferWidth = 800;
+            graphics.ApplyChanges();
+            camera = new Camera(graphics);
+
+
         }
 
         /// <summary>
@@ -40,7 +51,16 @@ namespace Chess
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
+            whiteRec = new Texture2D(GraphicsDevice, 1, 1);
+            whiteRec.SetData(new[] { Color.White });
+
+            blackRec = new Texture2D(GraphicsDevice, 1, 1);
+            blackRec.SetData(new[] { Color.Black });
+
+            playerIcon = new Texture2D(GraphicsDevice, 1, 1);
+            playerIcon.SetData(new[] { Color.Red });
+
+
         }
 
         /// <summary>
@@ -75,7 +95,31 @@ namespace Chess
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
+            spriteBatch.Begin();
+
+            int a = 0;
+            for (int y = 0; y < 8; y++)
+            {
+                for (int x = 0; x < 8; x++)
+                {
+                    if (a % 2 == 0)
+                    {
+                        spriteBatch.Draw(whiteRec, camera.whitePlayerRec(x, y), Color.White);
+                    }
+                    else
+                    {
+                        spriteBatch.Draw(blackRec, camera.whitePlayerRec(x, y), Color.White);
+                    }
+                    a++;
+                }
+                a++;
+            }
+            spriteBatch.Draw(playerIcon, camera.whitePlayerRec(1, 1), Color.White);
+
+
+
+
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }
