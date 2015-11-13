@@ -48,7 +48,17 @@ namespace Chess
 
         }
 
-      
+        public Rectangle blackScale(int xCord, int yCord)
+        {
+            sizeOfTile = graphics.GraphicsDevice.Viewport.Width / 10;
+            borderSize = graphics.GraphicsDevice.Viewport.Width / 10;
+
+            visualX = (sizeOfTile * 8 + borderSize - sizeOfTile) - (xCord * sizeOfTile);
+            visualY = (sizeOfTile * 8 + borderSize - sizeOfTile) - (yCord * sizeOfTile);
+
+            return new Rectangle(visualX, visualY, sizeOfTile, sizeOfTile); ;
+
+        }
 
     }
 }
