@@ -21,8 +21,8 @@ namespace Chess
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             graphics.IsFullScreen = false;
-            graphics.PreferredBackBufferHeight = 600;
-            graphics.PreferredBackBufferWidth = 800;
+            graphics.PreferredBackBufferHeight = 320;
+            graphics.PreferredBackBufferWidth = 240;
             graphics.ApplyChanges();
             camera = new Camera(graphics);
 
@@ -104,18 +104,18 @@ namespace Chess
                 {
                     if (a % 2 == 0)
                     {
-                        spriteBatch.Draw(whiteRec, camera.getCordinations(x, y), Color.White);
+                        spriteBatch.Draw(whiteRec, camera.blackScale(x, y), Color.White );
                     }
                     else
                     {
-                        spriteBatch.Draw(blackRec, camera.getCordinations(x, y), Color.White);
+                        spriteBatch.Draw(blackRec, camera.blackScale(x, y), Color.White);
                     }
                     a++;
                 }
                 a++;
             }
             //spriteBatch.Draw(playerIcon, camera.getCordinations(1, 1), Color.White);
-            spriteBatch.Draw(playerIcon, camera.rotateBoard(2, 2), Color.White);
+            spriteBatch.Draw(playerIcon, camera.blackScale(2, 2), Color.White);
 
 
 

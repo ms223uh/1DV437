@@ -28,14 +28,6 @@ namespace Chess
             return new Rectangle(visualX, visualY, sizeOfTile, sizeOfTile);
         }
 
-        //public Vector2 getCordinations(int xCord, int yCord)
-        //{
-        //    visualX = borderSize + xCord * sizeOfTile;
-        //    visualY = borderSize + yCord * sizeOfTile;
-
-        //    return new Vector2(visualX, visualY);
-        //}
-
         public Rectangle rotateBoard(int xCord, int yCord)
         {
            visualX = (sizeOfTile * 8 + borderSize - sizeOfTile) - (xCord * sizeOfTile);
@@ -43,6 +35,20 @@ namespace Chess
 
             return new Rectangle(visualX, visualY, sizeOfTile, sizeOfTile);
         }
+
+        public Rectangle whiteScale(int x, int y)
+        {
+            sizeOfTile = graphics.GraphicsDevice.Viewport.Width / 10;
+            borderSize = graphics.GraphicsDevice.Viewport.Width / 10;
+
+            visualX = borderSize + x * sizeOfTile;
+            visualY = borderSize + y * sizeOfTile;
+
+            return new Rectangle(visualX, visualY, sizeOfTile, sizeOfTile);
+
+        }
+
+      
 
     }
 }
