@@ -104,18 +104,18 @@ namespace Chess
                 {
                     if (a % 2 == 0)
                     {
-                        spriteBatch.Draw(whiteRec, camera.whitePlayerRec(x, y), Color.White);
+                        spriteBatch.Draw(whiteRec, camera.getCordinations(x, y), Color.White);
                     }
                     else
                     {
-                        spriteBatch.Draw(blackRec, camera.whitePlayerRec(x, y), Color.White);
+                        spriteBatch.Draw(blackRec, camera.getCordinations(x, y), Color.White);
                     }
                     a++;
                 }
                 a++;
             }
-            spriteBatch.Draw(playerIcon, camera.whitePlayerRec(1, 1), Color.White);
-
+            //spriteBatch.Draw(playerIcon, camera.getCordinations(1, 1), Color.White);
+            spriteBatch.Draw(playerIcon, camera.rotateBoard(2, 2), Color.White);
 
 
 

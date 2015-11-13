@@ -20,7 +20,7 @@ namespace Chess
             graphics = Graphics;
         }
 
-        public Rectangle whitePlayerRec(int x, int y)
+        public Rectangle getCordinations(int x, int y)
         {
             visualX = borderSize + x * sizeOfTile;
             visualY = borderSize + y * sizeOfTile;
@@ -28,12 +28,20 @@ namespace Chess
             return new Rectangle(visualX, visualY, sizeOfTile, sizeOfTile);
         }
 
-        public Vector2 getCordinations(int xCord, int yCord)
-        {
-            visualX = borderSize + xCord * sizeOfTile;
-            visualY = borderSize + yCord * sizeOfTile;
+        //public Vector2 getCordinations(int xCord, int yCord)
+        //{
+        //    visualX = borderSize + xCord * sizeOfTile;
+        //    visualY = borderSize + yCord * sizeOfTile;
 
-            return new Vector2(visualX, visualY);
+        //    return new Vector2(visualX, visualY);
+        //}
+
+        public Rectangle rotateBoard(int xCord, int yCord)
+        {
+           visualX = (sizeOfTile * 8 + borderSize - sizeOfTile) - (xCord * sizeOfTile);
+           visualY = (sizeOfTile * 8 + borderSize - sizeOfTile) - (yCord * sizeOfTile);
+
+            return new Rectangle(visualX, visualY, sizeOfTile, sizeOfTile);
         }
 
     }
