@@ -33,5 +33,24 @@ namespace Ball.View
         }
 
 
+        public Rectangle gameArea()
+        {
+            return new Rectangle((int)borderSize, (int)borderSize, (int)cordX, (int)cordY);
+        }
+
+        public float ballScale(float radius, int ballWidth)
+        {
+            return (radius * 2.0f) * (float)cordX / (int)ballWidth;
+        }
+
+        public Vector2 screenCord(Vector2 logicalPosition)
+        {
+            int screenCordX = (int)(logicalPosition.X * cordX) + (int)borderSize;
+            int screenCordY = (int)(logicalPosition.Y * cordY) + (int)borderSize;
+
+            return new Vector2(screenCordX, screenCordY);
+        }
+
+
     }
 }
