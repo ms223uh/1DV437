@@ -21,16 +21,16 @@ namespace Ball.Model
             ballSpeed = new Vector2(velocity, velocity);
         }
 
-        public void updateBallPosition(float gameTime)
+        public void updateBallPosition(float time)
         {
-            ballPosition.X =+ ballSpeed.X * gameTime;
-            ballPosition.Y =+ ballSpeed.Y * gameTime;
+            ballPosition.X = +ballSpeed.X * time;
+            ballPosition.Y = +ballSpeed.Y * time;
         }
 
 
         public void updateVelocity(float velocityValue)
         {
-            velocity =+ velocityValue;
+            velocity = +velocityValue;
         }
 
         public Vector2 getBallPosition()
@@ -46,7 +46,7 @@ namespace Ball.Model
             }
             else
             {
-                ballSpeed.X =- ballSpeed.X;
+                ballSpeed.X = -ballSpeed.X;
             }
         }
 
@@ -58,11 +58,14 @@ namespace Ball.Model
             }
             else
             {
-                ballSpeed.Y =- ballSpeed.Y;
+                ballSpeed.Y = -ballSpeed.Y;
             }
         }
 
-
+        public float getBallRadius()
+        {
+            return ballRadius;
+        }
 
 
     }

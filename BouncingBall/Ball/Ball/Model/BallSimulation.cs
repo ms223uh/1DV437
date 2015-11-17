@@ -10,5 +10,47 @@ namespace Ball.Model
 {
     class BallSimulation
     {
+
+        Ball ball;
+        public BallSimulation()
+        {
+            ball = new Ball();
+        }
+        
+        public Vector2 simBallPosition()
+        {
+            return ball.getBallPosition();
+        }
+
+        public float simBallRadius()
+        {
+            return ball.getBallRadius();
+        }
+
+
+        public void simUpdate(float time)
+        {
+            ball.updateBallPosition(time);
+
+            if(ball.getBallPosition().X + ball.getBallRadius() > 1)
+            {
+                ball.setBallSpeedX();
+            }
+            else if (ball.getBallPosition().X - ball.getBallRadius() < 0)
+            {
+                ball.setBallSpeedX();
+            }
+
+            else if (ball.getBallPosition().Y - ball.getBallRadius() > 1)
+            {
+                ball.setBallSpeedY();
+            }
+            else if (ball.getBallPosition().Y - ball.getBallRadius() < 0)
+            {
+                ball.setBallSpeedY();
+            }
+
+        }
+
     }
 }
