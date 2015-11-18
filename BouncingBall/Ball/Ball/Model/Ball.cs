@@ -13,24 +13,25 @@ namespace Ball.Model
         Vector2 ballPosition;
         Vector2 ballSpeed;
         float ballRadius = 0.05f;
-        float velocity = 0.09f;
+        Vector2 velocity2 = new Vector2(0.7f, 0.3f);
 
         public Ball()
         {
-            ballPosition = new Vector2(0.4f, 0.1f);
-            ballSpeed = new Vector2(velocity, velocity);
+            ballPosition = new Vector2(0.4f, 0.4f);
+            // ballSpeed = new Vector2(velocity, velocity);
+            ballSpeed = velocity2;
         }
 
         public void updateBallPosition(float time)
         {
-            ballPosition.X = +ballSpeed.X * time;
-            ballPosition.Y = +ballSpeed.Y * time;
+            ballPosition.X += ballSpeed.X * time;
+            ballPosition.Y += ballSpeed.Y * time;
         }
 
 
         public void updateVelocity(float velocityValue)
         {
-            velocity = +velocityValue;
+            velocity2.X += velocityValue;
         }
 
         public Vector2 getBallPosition()
@@ -42,11 +43,11 @@ namespace Ball.Model
         {
             if (ballSpeed.X < 0)
             {
-                ballSpeed.X = velocity;
+                ballSpeed.X = velocity2.X;
             }
             else
             {
-                ballSpeed.X = -ballSpeed.X;
+                ballSpeed.X =- ballSpeed.X;
             }
         }
 
@@ -54,11 +55,11 @@ namespace Ball.Model
         {
             if (ballSpeed.Y < 0)
             {
-                ballSpeed.Y = velocity;
+                ballSpeed.Y = velocity2.Y;
             }
             else
             {
-                ballSpeed.Y = -ballSpeed.Y;
+                ballSpeed.Y =- ballSpeed.Y;
             }
         }
 

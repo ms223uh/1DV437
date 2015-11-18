@@ -74,6 +74,8 @@ namespace Ball
 
             // TODO: Add your update logic here
 
+
+            ballSimulation.simUpdate((float)gameTime.ElapsedGameTime.TotalSeconds);
             base.Update(gameTime);
         }
 

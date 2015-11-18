@@ -28,9 +28,9 @@ namespace Ball.Model
         }
 
 
-        public void simUpdate(float time)
+        public void simUpdate(float gameTime)
         {
-            ball.updateBallPosition(time);
+            ball.updateBallPosition(gameTime);
 
             if(ball.getBallPosition().X + ball.getBallRadius() > 1 || ball.getBallPosition().X - ball.getBallRadius() < 0)
             {
@@ -38,7 +38,7 @@ namespace Ball.Model
             }
             
 
-            else if (ball.getBallPosition().Y - ball.getBallRadius() > 1 || ball.getBallPosition().Y - ball.getBallRadius() < 0)
+            if (ball.getBallPosition().Y + ball.getBallRadius() > 1 || ball.getBallPosition().Y - ball.getBallRadius() < 0)
             {
                 ball.setBallSpeedY();
             }
