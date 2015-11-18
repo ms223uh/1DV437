@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Ball.Model;
+using Ball.View;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -11,12 +13,19 @@ namespace Ball
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        BallSimulation ballSimulation;
+        BallView ballView;
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            graphics.PreferredBackBufferHeight = 450;
+            graphics.PreferredBackBufferWidth = 450;
+            graphics.IsFullScreen = false;
         }
+
+        
 
         /// <summary>
         /// Allows the game to perform any initialization it needs to before starting to run.
@@ -26,7 +35,7 @@ namespace Ball
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
+            ballSimulation = new BallSimulation();
 
             base.Initialize();
         }
@@ -40,7 +49,8 @@ namespace Ball
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
+            Camera camera = new Camera(GraphicsDevice.Viewport);
+            ballView = new BallView(ballSimulation, camera, GraphicsDevice, Content.Load<Texture2D>("ball"));
         }
 
         /// <summary>
@@ -75,7 +85,7 @@ namespace Ball
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
+            ballView.Draw(spriteBatch);
 
             base.Draw(gameTime);
         }

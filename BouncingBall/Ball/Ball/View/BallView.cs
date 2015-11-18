@@ -5,17 +5,18 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Ball.Model;
 
 namespace Ball.View 
 {
     class BallView
     {
-        Model.BallSimulation ballSimulation;
+        BallSimulation ballSimulation;
         Camera camera;
         Texture2D ballTexture;
         Texture2D gameBox;
 
-        public BallView(Model.BallSimulation ballSim, Camera viewCamera, GraphicsDevice graphics, Texture2D psyBall)
+        public BallView(BallSimulation ballSim, Camera viewCamera, GraphicsDevice graphics, Texture2D psyBall)
         {
             ballSimulation = ballSim;
             camera = viewCamera;
@@ -26,14 +27,14 @@ namespace Ball.View
 
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch sprite)
         {
             float psyBallScale = camera.ballScale(ballSimulation.simBallRadius(), ballTexture.Bounds.Width);
 
-            spriteBatch.Begin();
+            sprite.Begin();
 
-            spriteBatch.Draw(gameBox, camera.gameArea(), Color.OrangeRed);
-            spriteBatch.Draw(ballTexture,
+            sprite.Draw(gameBox, camera.gameArea(), Color.OrangeRed);
+            sprite.Draw(ballTexture,
                              camera.screenCord(ballSimulation.simBallPosition()),
                              ballTexture.Bounds,
                              Color.White, 0,
@@ -41,7 +42,7 @@ namespace Ball.View
                              psyBallScale, SpriteEffects.None, 0
                 );
 
-            spriteBatch.End();
+            sprite.End();
         }
 
     }
