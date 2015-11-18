@@ -32,23 +32,17 @@ namespace Ball.Model
         {
             ball.updateBallPosition(time);
 
-            if(ball.getBallPosition().X + ball.getBallRadius() > 1)
+            if(ball.getBallPosition().X + ball.getBallRadius() > 1 || ball.getBallPosition().X - ball.getBallRadius() < 0)
             {
                 ball.setBallSpeedX();
             }
-            else if (ball.getBallPosition().X - ball.getBallRadius() < 0)
-            {
-                ball.setBallSpeedX();
-            }
+            
 
-            else if (ball.getBallPosition().Y - ball.getBallRadius() > 1)
+            else if (ball.getBallPosition().Y - ball.getBallRadius() > 1 || ball.getBallPosition().Y - ball.getBallRadius() < 0)
             {
                 ball.setBallSpeedY();
             }
-            else if (ball.getBallPosition().Y - ball.getBallRadius() < 0)
-            {
-                ball.setBallSpeedY();
-            }
+            
 
         }
 
