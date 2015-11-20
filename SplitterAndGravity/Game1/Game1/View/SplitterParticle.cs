@@ -13,7 +13,7 @@ namespace Game1.View
 
         private int seed;
         private Vector2 startPostion;
-        private Vector2 particlePostion;
+        private Vector2 position;
         private Vector2 velocity;
 
 
@@ -21,13 +21,13 @@ namespace Game1.View
         {
             this.seed = seed;
             this.startPostion = startPostion;
-            this.particlePostion = new Vector2(startPositon.X, startPositon.Y);
+            this.position = new Vector2(startPositon.X, startPositon.Y);
             velocity = new Vector2(1, 0);
         }
 
         internal void Update(float elapsedTimeSeconds)
         {
-            particlePostion = particlePostion + velocity * elapsedTimeSeconds;
+            position = position + velocity * elapsedTimeSeconds;
         }
 
         internal void Draw(SpriteBatch spriteBatch, Camera camera, Texture2D particleTexture)
