@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
+
 
 namespace Game1.View
 {
@@ -13,20 +13,27 @@ namespace Game1.View
 
         SpriteBatch spriteBatch;
         SplitterSystem particle;
-        Camera camera;
+        Camera camera2;
         Texture2D particleTexture;
         float durationTime;
+        private Camera camera;
+        private Texture2D texture2D;
 
-
-        public GameView(SpriteBatch spriteBatch, Texture2D particleTexture, Camera camera)
+        public GameView(SpriteBatch spriteBatch, Texture2D particleTexture, Camera camera2)
         {
             this.spriteBatch = spriteBatch;
             this.particleTexture = particleTexture;
-            this.camera = camera;
+            this.camera2 = camera2;
             durationTime = 0;
             createParticle();
         }
 
+        public GameView(SpriteBatch spriteBatch, Camera camera, Texture2D texture2D)
+        {
+            this.spriteBatch = spriteBatch;
+            this.camera = camera;
+            this.texture2D = texture2D;
+        }
 
         public void createParticle()
         {
@@ -48,7 +55,7 @@ namespace Game1.View
 
             spriteBatch.Begin();
 
-            particle.Draw(spriteBatch, camera, particleTexture);
+            particle.Draw(spriteBatch, camera2, particleTexture);
 
             spriteBatch.End();
         }

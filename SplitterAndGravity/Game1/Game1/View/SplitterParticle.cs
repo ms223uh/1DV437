@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
+
 
 namespace Game1.View
 {
@@ -12,27 +12,36 @@ namespace Game1.View
     {
 
         private int seed;
-        private Vector2 startPostion;
+        private Vector2 startPosition;
         private Vector2 position;
         private Vector2 velocity;
+        private Vector2 acceleration;
+        float radius = 0.01f;
 
-
-        public SplitterParticle(int seed, Vector2 startPositon)
+        public SplitterParticle(int seed, Vector2 startPosition)
         {
             this.seed = seed;
-            this.startPostion = startPostion;
-            this.position = new Vector2(startPositon.X, startPositon.Y);
-            velocity = new Vector2(1, 0);
+            this.startPosition = startPosition;
+            this.position = new Vector2(startPosition.X, startPosition.Y);
+            Random random = new Random(this.seed);
+
+            velocity = new Vector2((float)((random.NextDouble() - 0.5f)), (float)((random.NextDouble() - 0.5f)));
+            velocity.Normalize();
+            velocity = velocity * ((float)random.NextDouble() * 0.3f);
+            acceleration = new Vector2(0.0f, 1.0f);
         }
 
         internal void Update(float elapsedTimeSeconds)
         {
+            velocity = velocity + acceleration * elapsedTimeSeconds;
             position = position + velocity * elapsedTimeSeconds;
         }
 
         internal void Draw(SpriteBatch spriteBatch, Camera camera, Texture2D particleTexture)
         {
+            Rectangle sparkRectangleTexture = camera.Rectangle(position, radius);
 
+            spriteBatch.Draw(particleTexture, sparkRectangleTexture, Color.White);
         }
 
     }
