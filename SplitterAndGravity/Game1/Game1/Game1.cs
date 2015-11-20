@@ -21,7 +21,7 @@ namespace Game1
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             graphics.IsFullScreen = false;
-            graphics.PreferredBackBufferHeight = 400;
+            graphics.PreferredBackBufferHeight = 600;
             graphics.PreferredBackBufferWidth = 600;
         }
 
@@ -81,7 +81,7 @@ namespace Game1
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.DodgerBlue);
 
             gameView.Draw((float)gameTime.ElapsedGameTime.TotalSeconds);
 

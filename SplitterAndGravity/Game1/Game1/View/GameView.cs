@@ -13,27 +13,21 @@ namespace Game1.View
 
         SpriteBatch spriteBatch;
         SplitterSystem particle;
-        Camera camera2;
+        Camera camera;
         Texture2D particleTexture;
         float durationTime;
-        private Camera camera;
-        private Texture2D texture2D;
+        
+        
 
-        public GameView(SpriteBatch spriteBatch, Texture2D particleTexture, Camera camera2)
+        public GameView(SpriteBatch Sprite, Camera camera2, Texture2D particleTexture2)
         {
-            this.spriteBatch = spriteBatch;
-            this.particleTexture = particleTexture;
-            this.camera2 = camera2;
+            spriteBatch = Sprite;
+            particleTexture = particleTexture2;
+            camera = camera2;
             durationTime = 0;
             createParticle();
         }
 
-        public GameView(SpriteBatch spriteBatch, Camera camera, Texture2D texture2D)
-        {
-            this.spriteBatch = spriteBatch;
-            this.camera = camera;
-            this.texture2D = texture2D;
-        }
 
         public void createParticle()
         {
@@ -55,7 +49,7 @@ namespace Game1.View
 
             spriteBatch.Begin();
 
-            particle.Draw(spriteBatch, camera2, particleTexture);
+            particle.Draw(spriteBatch, camera, particleTexture);
 
             spriteBatch.End();
         }

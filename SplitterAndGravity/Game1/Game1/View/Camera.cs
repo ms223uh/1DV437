@@ -34,10 +34,10 @@ namespace Game1.View
         {
             int screenX = (int)((screenPosition.X * cordX));
             int screenY = (int)((screenPosition.Y * cordY));
-            return new Vector2(cordX, screenY);
+            return new Vector2(screenX, screenY);
         }
 
-        public Rectangle Rectangle(Vector2 screenPosition, float radius)
+        public Rectangle getRectangle(Vector2 screenPosition, float radius)
         {
             Vector2 position = screenCord(screenPosition);
             float textureSize = radius * cordX;

@@ -31,15 +31,15 @@ namespace Game1.View
             acceleration = new Vector2(0.0f, 1.0f);
         }
 
-        internal void Update(float elapsedTimeSeconds)
+        internal void Update(float elapsedTime)
         {
-            velocity = velocity + acceleration * elapsedTimeSeconds;
-            position = position + velocity * elapsedTimeSeconds;
+            velocity = velocity + acceleration * elapsedTime;
+            position = position + velocity * elapsedTime;
         }
 
         internal void Draw(SpriteBatch spriteBatch, Camera camera, Texture2D particleTexture)
         {
-            Rectangle sparkRectangleTexture = camera.Rectangle(position, radius);
+            Rectangle sparkRectangleTexture = camera.getRectangle(position, radius);
 
             spriteBatch.Draw(particleTexture, sparkRectangleTexture, Color.White);
         }
