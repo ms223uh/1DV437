@@ -40,7 +40,5 @@ namespace Game1.View
         }
 
 
-
-
     }
 }
