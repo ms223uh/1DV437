@@ -12,7 +12,7 @@ namespace Game1.View
     {
 
         private Random random;
-        private Vector2 startPostion;
+        private Vector2 startPosition;
         private Vector2 smokePosition;
         private Vector2 velocity;
         private Vector2 smokeAcceleration;
@@ -30,7 +30,7 @@ namespace Game1.View
         public SmokeParticle(Random Random, Vector2 Startposition)
         {
             this.random = Random;
-            this.startPostion = Startposition;
+            this.startPosition = Startposition;
         }
 
 
@@ -55,8 +55,42 @@ namespace Game1.View
             }
 
 
+        public void smokeSpot()
+        {
+            this.smokePosition = this.startPosition;
+            smokeSimSec = 0;
+            smokeSize = 0;
+
+            smokeRotation = (float)(10 * (180.0 / Math.PI));
+            smokeSpeedRotation = (float)(random.NextDouble() + 0.1);
+
+            velocity = new Vector2((float)((random.NextDouble() * 2.0f - 1.0f) * 0.4f), (float)((random.NextDouble() * 2.0f - 1.0f) * 0.3f));
+            velocity = velocity * ((float)random.NextDouble() * 0.3f);
+            smokeAcceleration = new Vector2(0.0f, -0.3f);
+        }
 
 
+        public bool Update(float elapsedTime)
+        {
+            smokeSimSec += elapsedTime;
+            smokeLife = smokeSimSec / smokeLifeTime;
+
+            velocity = velocity + smokeAcceleration * elapsedTime;
+            smokePosition = smokePosition + velocity * elapsedTime;
+
+            smokeSize = smokeMinSize + smokeLife * smokeMaxSize;
+
+            float beginSmoke = 1.0f, endSmoke = 0.0f;
+            smokeFade = endSmoke * smokeLife + (1.0f - smokeLife) * beginSmoke;
+
+            smokeRotation += smokeSpeedRotation * elapsedTime;
+
+            if (smokeLife >= 1)
+            {
+                return true;
+            }
+            return false;
+        }
 
 
     }
