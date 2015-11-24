@@ -18,6 +18,7 @@ namespace Game1.View
         float smokeColor;
         float smokeLife;
 
+
         public SmokeParticle(Texture2D SmokeTexture, Vector2 SmokePosition, Vector2 SmokeDirection,
                              float SmokeRadius, float SmokeColor, float SmokeLife)
         {
@@ -30,6 +31,22 @@ namespace Game1.View
         }
 
 
+        public bool Update(float elapsedTime)
+        {
+            this.smokePosition += this.smokeDirection * elapsedTime;
+            this.smokeLife -= elapsedTime;
+            if(this.smokeLife > 0)
+            {
+                return true;    
+            }
+                return false; 
+        }
+
+
+        public void Draw(SpriteBatch spriteBatch)
+        {
+
+        }
 
     }
 }
