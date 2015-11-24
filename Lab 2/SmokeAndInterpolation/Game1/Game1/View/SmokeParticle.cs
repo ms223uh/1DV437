@@ -10,42 +10,62 @@ namespace Game1.View
 {
     class SmokeParticle
     {
+        
+        public Vector2 smokePosition;
+        Vector2 smokeStartDirection;
+        Vector2 smokeEndDirection;
+        float smokeLifeLeft;
+        float smokeStartingLife;
+        float smokeScaleBegin;
+        float smokeScaleEnd;
+        Color smokeStartColor;
+        Color smokeEndColor;
+        SmokeSystem smokeSystem;
+        float smokelifePhase;
+        
 
-        Texture2D smokeTexture;
-        Vector2 smokePosition;
-        Vector2 smokeDirection;
-        float smokeRadius;
-        float smokeColor;
-        float smokeLife;
+        public SmokeParticle(Vector2 Position, Vector2 StartDirection, 
+            Vector2 EndDirection, float StartingLife,
+            float ScaleBegin, float ScaleEnd, Color StartColor, 
+            Color EndColor, SmokeSystem SmokeSystem)
 
-
-        public SmokeParticle(Texture2D SmokeTexture, Vector2 SmokePosition, Vector2 SmokeDirection,
-                             float SmokeRadius, float SmokeColor, float SmokeLife)
         {
-            this.smokeTexture = SmokeTexture;
-            this.smokePosition = SmokePosition;
-            this.smokeDirection = SmokeDirection;
-            this.smokeRadius = SmokeRadius;
-            this.smokeColor = SmokeColor;
-            this.smokeLife = SmokeLife;
+            this.smokePosition = Position;
+            this.smokeStartDirection = StartDirection;
+            this.smokeEndDirection = EndDirection;
+            this.smokeStartingLife = StartingLife;
+            this.smokeLifeLeft = StartingLife;
+            this.smokeScaleBegin = ScaleBegin;
+            this.smokeScaleEnd = ScaleEnd;
+            this.smokeStartColor = StartColor;
+            this.smokeEndColor = EndColor;
+            this.smokeSystem = SmokeSystem;
         }
 
 
         public bool Update(float elapsedTime)
         {
-            this.smokePosition += this.smokeDirection * elapsedTime;
-            this.smokeLife -= elapsedTime;
-            if(this.smokeLife > 0)
+            smokeLifeLeft -= elapsedTime;
+            if (smokeLifeLeft <= 0)
             {
-                return true;    
+                return false;
             }
-                return false; 
+            smokelifePhase = smokeLifeLeft / smokeStartingLife;
+            smokePosition += SmokeCalculate.smokeyCalc(smokeEndDirection, smokeStartDirection, smokelifePhase) * elapsedTime;
+            return true;
         }
 
 
-        public void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch, int Scale, Vector2 Offset)
         {
-
+            float currScale = SmokeCalculate.smokeyCalc(smokeScaleEnd, smokeScaleBegin, smokelifePhase);
+            Color currCol = SmokeCalculate.smokeyCalc(smokeEndColor, smokeStartColor, smokelifePhase);
+            spriteBatch.Draw(smokeSystem.smokeParticleSprite,
+                     new Rectangle((int)((smokePosition.X - 0.5f * currScale) * Scale + Offset.X),
+                              (int)((smokePosition.Y - 0.5f * currScale) * Scale + Offset.Y),
+                              (int)(currScale * Scale),
+                              (int)(currScale * Scale)),
+                     null, currCol, 0, Vector2.Zero, SpriteEffects.None, 0);
         }
 
     }

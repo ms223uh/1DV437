@@ -12,7 +12,9 @@ namespace Game1
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        
+        Texture2D smokeTexture;
+        ParticleSystem particleSystem;
+
 
         public Game1()
         {
@@ -29,7 +31,15 @@ namespace Game1
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
+            spriteBatch = new SpriteBatch(this.GraphicsDevice);
+            smokeTexture = this.Content.Load<Texture2D>("smokePic");
+            particleSystem = new ParticleSystem(new Vector2(400, 300));
+            particleSystem.addParticle(new Vector2(0.01f, 0.015f),
+                                        new Vector2(0, -1), new Vector2(0.1f * MathHelper.Pi, 0.1f * -MathHelper.Pi),
+                                        new Vector2(0.5f, 0.75f),
+                                        new Vector2(60, 70), new Vector2(15, 15f),
+                                        Color.Orange, Color.Black, new Color(Color.Black, 0), new Color(Color.Black, 0),
+                                        new Vector2(400, 500), new Vector2(100, 120), 1000, Vector2.Zero, smokeTexture);
 
             base.Initialize();
         }
@@ -67,7 +77,7 @@ namespace Game1
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            
+            particleSystem.Update(gameTime.ElapsedGameTime.Milliseconds / 1000f);
 
             base.Update(gameTime);
         }
@@ -79,8 +89,10 @@ namespace Game1
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.White);
+            spriteBatch.Begin();
+            particleSystem.Draw(spriteBatch, 1, Vector2.Zero);
+            spriteBatch.End();
 
-            
 
             base.Draw(gameTime);
         }

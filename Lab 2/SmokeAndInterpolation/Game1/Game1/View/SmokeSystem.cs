@@ -10,28 +10,95 @@ namespace Game1.View
 {
     class SmokeSystem
     {
-        Texture2D smokeTexture;
+        public Texture2D smokeParticleSprite;
         public int maxSmokeParticle;
         float spawnNextParticle;
         float lastParticle;
-        LinkedList<SmokeParticle> activeSmokeParticles;
+        LinkedList<SmokeParticle> activeSmokeParticles; // LinkedList added a collection of SmokeParticle
         Random random;
+        public Vector2 smokeRelPosition;
 
-        public SmokeSystem()
+        public Vector2 smokeSecPerSpawn;
+        public Vector2 smokeSpawnDirection;
+        public Vector2 smokeSpawnNoiseAngle;
+        public Vector2 smokeStartLife;
+        public Vector2 smokeStartScale;
+        public Vector2 smokeEndScale;
+        public Color smokeStartColor1;
+        public Color smokeStartColor2;
+        public Color smokeEndColor1;
+        public Color smokeEndColor2;
+        public Vector2 smokeStartSpeed;
+        public Vector2 smokeEndSpeed;
+
+        public ParticleSystem particleSystem;
+
+
+        public SmokeSystem(Vector2 SecPerSpawn, Vector2 SpawnDirection, Vector2 SpawnNoiseAngle,
+                            Vector2 StartLife, Vector2 StartScale, Vector2 EndScale, Color StartColor1,
+                            Color StartColor2, Color EndColor1, Color EndColor2, Vector2 StartSpeed,
+                            Vector2 EndSpeed, int Budget, Vector2 RelPosition, Texture2D smokeParticleSprite,
+                            Random random, ParticleSystem particleSystem)
         {
+            this.smokeSecPerSpawn = SecPerSpawn;
+            this.smokeSpawnDirection = SpawnDirection;
+            this.smokeSpawnNoiseAngle = SpawnNoiseAngle;
+            this.smokeStartLife = StartLife;
+            this.smokeStartScale = StartScale;
+            this.smokeEndScale = EndScale;
+            this.smokeStartColor1 = StartColor1;
+            this.smokeStartColor2 = StartColor2;
+            this.smokeEndColor1 = EndColor1;
+            this.smokeEndColor2 = EndColor2;
+            this.smokeStartSpeed = StartSpeed;
+            this.smokeEndSpeed = EndSpeed;
+            this.maxSmokeParticle = Budget;
+            this.smokeRelPosition = RelPosition;
+            this.smokeParticleSprite = smokeParticleSprite;
+            this.random = random;
+            this.particleSystem = particleSystem;
+
             activeSmokeParticles = new LinkedList<SmokeParticle>();
+
+            this.spawnNextParticle = SmokeCalculate.smokeyCalc(smokeSecPerSpawn.X, smokeSecPerSpawn.Y, random.NextDouble());
+            this.lastParticle = 0.0f;
         }
 
 
         public void Update(float elapsedTime)
         {
-            LinkedListNode<SmokeParticle> smokeNode = activeSmokeParticles.First;
-
-            while(smokeNode != null)
+            lastParticle += elapsedTime;
+            while (lastParticle > spawnNextParticle)
             {
-                bool particleIsAlive = smokeNode.Value.Update(elapsedTime);
+                if (activeSmokeParticles.Count < maxSmokeParticle)
+                {
+                    // Spawn a particle
+                    Vector2 StartDirection = Vector2.Transform(smokeSpawnDirection, Matrix.CreateRotationZ(SmokeCalculate.smokeyCalc(smokeSpawnNoiseAngle.X, smokeSpawnNoiseAngle.Y, random.NextDouble())));
+                    StartDirection.Normalize();
+                    Vector2 EndDirection = StartDirection * SmokeCalculate.smokeyCalc(smokeEndSpeed.X, smokeEndSpeed.Y, random.NextDouble());
+                    StartDirection *= SmokeCalculate.smokeyCalc(smokeStartSpeed.X, smokeStartSpeed.Y, random.NextDouble());
+                    activeSmokeParticles.AddLast(new SmokeParticle(
+                        smokeRelPosition + particleSystem.smokePosition,
+                        StartDirection,
+                        EndDirection,
+                        SmokeCalculate.smokeyCalc(smokeStartLife.X, smokeStartLife.Y, random.NextDouble()),
+                        SmokeCalculate.smokeyCalc(smokeStartScale.X, smokeStartScale.Y, random.NextDouble()),
+                        SmokeCalculate.smokeyCalc(smokeEndScale.X, smokeEndScale.Y, random.NextDouble()),
+                        SmokeCalculate.smokeyCalc(smokeStartColor1, smokeStartColor2, random.NextDouble()),
+                        SmokeCalculate.smokeyCalc(smokeEndColor1, smokeEndColor2, random.NextDouble()),
+                        this)
+                    );
+                }
+                lastParticle -= spawnNextParticle;
+                spawnNextParticle = SmokeCalculate.smokeyCalc(smokeSecPerSpawn.X, smokeSecPerSpawn.Y, random.NextDouble());
+            }
+
+            LinkedListNode<SmokeParticle> smokeNode = activeSmokeParticles.First;
+            while (smokeNode != null)
+            {
+                bool isAlive = smokeNode.Value.Update(elapsedTime);
                 smokeNode = smokeNode.Next;
-                if (!particleIsAlive)
+                if (!isAlive)
                 {
                     if (smokeNode == null)
                     {
@@ -43,20 +110,23 @@ namespace Game1.View
                     }
                 }
             }
-
         }
 
 
-        public void Draw(SpriteBatch spritebatch)
+        public void Draw(SpriteBatch spriteBatch, int Scale, Vector2 Offset)
         {
             LinkedListNode<SmokeParticle> smokeNode = activeSmokeParticles.First;
             while (smokeNode != null)
             {
-                smokeNode.Value.Draw(spritebatch, scale, offsett);
+                smokeNode.Value.Draw(spriteBatch, Scale, Offset);
                 smokeNode = smokeNode.Next;
             }
         }
 
+        public void Clear()
+        {
+            activeSmokeParticles.Clear();
+        }
 
     }
 

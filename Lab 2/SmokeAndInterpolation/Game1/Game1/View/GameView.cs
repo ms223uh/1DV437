@@ -11,5 +11,5 @@ namespace Game1.View
     class GameView
     {
 
-       
+    }
 }
