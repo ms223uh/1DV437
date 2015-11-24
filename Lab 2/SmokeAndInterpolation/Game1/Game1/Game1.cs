@@ -12,7 +12,7 @@ namespace Game1
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        GameView gameView;
+        
 
         public Game1()
         {
@@ -43,8 +43,7 @@ namespace Game1
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            Camera camera = new Camera(GraphicsDevice.Viewport);
-            gameView = new GameView(spriteBatch, camera, Content.Load<Texture2D>("particlesmoke"));
+            
 
             // TODO: use this.Content to load your game content here
         }
@@ -68,7 +67,7 @@ namespace Game1
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            gameView.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
+            
 
             base.Update(gameTime);
         }
@@ -79,9 +78,9 @@ namespace Game1
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.White);
 
-            gameView.Draw();
+            
 
             base.Draw(gameTime);
         }
