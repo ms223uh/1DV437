@@ -10,88 +10,63 @@ namespace Game1.View
 {
     class SmokeParticle
     {
-
-        private Random random;
-        private Vector2 startPosition;
-        private Vector2 smokePosition;
-        private Vector2 velocity;
-        private Vector2 smokeAcceleration;
-        private float smokeFade;
-        private float smokeRotation;
-        private float smokeSpeedRotation;
-        private float smokeLifeTime = 4;
-        private float smokeMaxSize = 5.0f;
-        private float smokeMinSize = 1.0f;
-        private float smokeSimSec;
-        private float smokeLife;
-        private float smokeSize;
-
         
-        public SmokeParticle(Random Random, Vector2 Startposition)
+        public Vector2 smokePosition;
+        Vector2 smokeStartDirection;
+        Vector2 smokeEndDirection;
+        float smokeLifeLeft;
+        float smokeStartingLife;
+        float smokeScaleBegin;
+        float smokeScaleEnd;
+        Color smokeStartColor;
+        Color smokeEndColor;
+        SmokeSystem smokeSystem;
+        float smokelifePhase;
+        
+
+        public SmokeParticle(Vector2 Position, Vector2 StartDirection, 
+            Vector2 EndDirection, float StartingLife,
+            float ScaleBegin, float ScaleEnd, Color StartColor, 
+            Color EndColor, SmokeSystem SmokeSystem)
+
         {
-            this.random = Random;
-            this.startPosition = Startposition;
-        }
-
-
-            public Vector2 SmokePosition
-            {
-                get { return smokePosition; }
-            }
-
-            public float SmokeSize
-            {
-                get { return smokeSize; }
-            }
-
-            public float SmokeFade
-            {
-                get { return smokeFade; }
-            }
-
-            public float SmokeRotation
-            {
-                get { return smokeRotation; }
-            }
-
-
-        public void smokeSpot()
-        {
-            this.smokePosition = this.startPosition;
-            smokeSimSec = 0;
-            smokeSize = 0;
-
-            smokeRotation = (float)(10 * (180.0 / Math.PI));
-            smokeSpeedRotation = (float)(random.NextDouble() + 0.1);
-
-            velocity = new Vector2((float)((random.NextDouble() * 2.0f - 1.0f) * 0.4f), (float)((random.NextDouble() * 2.0f - 1.0f) * 0.3f));
-            velocity = velocity * ((float)random.NextDouble() * 0.3f);
-            smokeAcceleration = new Vector2(0.0f, -0.3f);
+            this.smokePosition = Position;
+            this.smokeStartDirection = StartDirection;
+            this.smokeEndDirection = EndDirection;
+            this.smokeStartingLife = StartingLife;
+            this.smokeLifeLeft = StartingLife;
+            this.smokeScaleBegin = ScaleBegin;
+            this.smokeScaleEnd = ScaleEnd;
+            this.smokeStartColor = StartColor;
+            this.smokeEndColor = EndColor;
+            this.smokeSystem = SmokeSystem;
         }
 
 
         public bool Update(float elapsedTime)
         {
-            smokeSimSec += elapsedTime;
-            smokeLife = smokeSimSec / smokeLifeTime;
-
-            velocity = velocity + smokeAcceleration * elapsedTime;
-            smokePosition = smokePosition + velocity * elapsedTime;
-
-            smokeSize = smokeMinSize + smokeLife * smokeMaxSize;
-
-            float beginSmoke = 1.0f, endSmoke = 0.0f;
-            smokeFade = endSmoke * smokeLife + (1.0f - smokeLife) * beginSmoke;
-
-            smokeRotation += smokeSpeedRotation * elapsedTime;
-
-            if (smokeLife >= 1)
+            smokeLifeLeft -= elapsedTime;
+            if (smokeLifeLeft <= 0)
             {
-                return true;
+                return false;
             }
-            return false;
+            smokelifePhase = smokeLifeLeft / smokeStartingLife;
+            smokePosition += SmokeCalculate.smokeyCalc(smokeEndDirection, smokeStartDirection, smokelifePhase) * elapsedTime;
+            return true;
         }
 
+
+        public void Draw(SpriteBatch spriteBatch, int Scale, Vector2 Offset)
+        {
+            float currScale = SmokeCalculate.smokeyCalc(smokeScaleEnd, smokeScaleBegin, smokelifePhase);
+            Color currCol = SmokeCalculate.smokeyCalc(smokeEndColor, smokeStartColor, smokelifePhase);
+            spriteBatch.Draw(smokeSystem.smokeParticleSprite,
+                     new Rectangle((int)((smokePosition.X - 0.5f * currScale) * Scale + Offset.X),
+                              (int)((smokePosition.Y - 0.5f * currScale) * Scale + Offset.Y),
+                              (int)(currScale * Scale),
+                              (int)(currScale * Scale)),
+                     null, currCol, 0, Vector2.Zero, SpriteEffects.None, 0);
+        }
 
     }
 }
